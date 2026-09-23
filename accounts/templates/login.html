@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+
+<body class="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4">
+
+
+    <div class="w-full max-w-md">
+
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+
+
+            <!-- Icon -->
+
+            <div class="flex justify-center mb-6">
+
+                <div class="w-16 h-16 rounded-2xl bg-indigo-600 flex items-center justify-center">
+
+                    <i
+                        data-lucide="log-in"
+                        class="w-8 h-8"
+                    ></i>
+
+                </div>
+
+            </div>
+
+
+            <!-- Heading -->
+
+            <div class="text-center mb-8">
+
+                <h1 class="text-3xl font-bold">
+                    Welcome back
+                </h1>
+
+                <p class="text-slate-400 mt-2">
+                    Login to your account
+                </p>
+
+            </div>
+
+
+            <!-- Form -->
+
+            <form
+                method="post"
+                action="{% url 'login' %}"
+            >
+
+                {% csrf_token %}
+
+
+                {% if form.non_field_errors %}
+
+                    <div class="mb-5 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+
+                        {% for error in form.non_field_errors %}
+
+                            <p>{{ error }}</p>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Username -->
+
+                <div class="mb-5">
+
+                    <label
+                        for="id_username"
+                        class="block text-sm font-medium text-slate-300 mb-2"
+                    >
+                        Username
+                    </label>
+
+
+                    <div class="relative">
+
+                        <i
+                            data-lucide="user"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"
+                        ></i>
+
+
+                        <input
+                            type="text"
+                            name="username"
+                            id="id_username"
+                            value="{{ form.username.value|default:'' }}"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 pl-12 pr-4 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- Password -->
+
+                <div class="mb-6">
+
+                    <label
+                        for="id_password"
+                        class="block text-sm font-medium text-slate-300 mb-2"
+                    >
+                        Password
+                    </label>
+
+
+                    <div class="relative">
+
+                        <i
+                            data-lucide="lock"
+                            class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500"
+                        ></i>
+
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="id_password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl py-3 pl-12 pr-12 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500"
+                        >
+
+
+                        <button
+                            type="button"
+                            onclick="togglePassword()"
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white"
+                        >
+
+                            <i
+                                id="password-icon"
+                                data-lucide="eye"
+                                class="w-5 h-5"
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Submit -->
+
+                <button
+                    type="submit"
+                    class="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 font-semibold transition"
+                >
+                    Login
+                </button>
+
+
+            </form>
+
+
+            <!-- Signup -->
+
+            <div class="mt-6 text-center">
+
+                <p class="text-slate-500 text-sm">
+
+                    Don't have an account?
+
+                    <a
+                        href="{% url 'signup' %}"
+                        class="text-indigo-400 hover:text-indigo-300 font-medium"
+                    >
+                        Create account
+                    </a>
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="text-center mt-6">
+
+            <a
+                href="{% url 'home' %}"
+                class="text-sm text-slate-500 hover:text-white"
+            >
+                ← Back to home
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        lucide.createIcons();
+
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("id_password");
+
+            const icon =
+                document.getElementById("password-icon");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                icon.setAttribute(
+                    "data-lucide",
+                    "eye-off"
+                );
+
+            } else {
+
+                password.type = "password";
+
+                icon.setAttribute(
+                    "data-lucide",
+                    "eye"
+                );
+
+            }
+
+            lucide.createIcons();
+
+        }
+
+    </script>
+
+</body>
+
+</html>
