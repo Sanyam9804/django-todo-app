@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Todo App</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+</head>
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+    <nav class="border-b border-slate-800">
+
+        <div class="max-w-6xl mx-auto px-6 py-5">
+
+            <div class="flex justify-between items-center">
+
+                <a
+                    href="{% url 'home' %}"
+                    class="text-xl font-bold"
+                >
+                    Todo App
+                </a>
+
+
+                <div class="flex items-center gap-3">
+
+                    {% if user.is_authenticated %}
+
+                        <a
+                            href="{% url 'todo_dashboard' %}"
+                            class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500"
+                        >
+                            Dashboard
+                        </a>
+
+                        <form
+                            method="post"
+                            action="{% url 'logout' %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="px-4 py-2 rounded-lg border border-slate-700 hover:bg-slate-800"
+                            >
+                                Logout
+                            </button>
+
+                        </form>
+
+                    {% else %}
+
+                        <a
+                            href="{% url 'login' %}"
+                            class="px-4 py-2 rounded-lg border border-slate-700 hover:bg-slate-800"
+                        >
+                            Login
+                        </a>
+
+                        <a
+                            href="{% url 'signup' %}"
+                            class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500"
+                        >
+                            Sign Up
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <main class="max-w-4xl mx-auto px-6 py-32 text-center">
+
+        <div class="w-20 h-20 mx-auto mb-8 rounded-2xl bg-indigo-600 flex items-center justify-center">
+
+            <i
+                data-lucide="check-square"
+                class="w-10 h-10"
+            ></i>
+
+        </div>
+
+
+        <h1 class="text-5xl font-bold mb-6">
+            Organize your life.
+        </h1>
+
+
+        <p class="text-xl text-slate-400 mb-10">
+            A simple and powerful Todo application.
+        </p>
+
+
+        {% if user.is_authenticated %}
+
+            <a
+                href="{% url 'todo_dashboard' %}"
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold"
+            >
+
+                <i
+                    data-lucide="layout-dashboard"
+                    class="w-5 h-5"
+                ></i>
+
+                Go to Dashboard
+
+            </a>
+
+        {% else %}
+
+            <div class="flex justify-center gap-4">
+
+                <a
+                    href="{% url 'signup' %}"
+                    class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold"
+                >
+                    Create Account
+                </a>
+
+                <a
+                    href="{% url 'login' %}"
+                    class="px-6 py-3 rounded-xl border border-slate-700 hover:bg-slate-800 font-semibold"
+                >
+                    Login
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </main>
+
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
