@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% if form.instance.pk %}
+            Edit Todo
+        {% else %}
+            Create Todo
+        {% endif %}
+    </title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+
+<body class="min-h-screen bg-slate-950 text-white">
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+
+        <div class="max-w-4xl mx-auto px-6 py-4">
+
+            <div class="flex items-center justify-between">
+
+                <!-- Logo -->
+
+                <a href="{% url 'todo_dashboard' %}"
+                   class="flex items-center gap-3">
+
+                    <div class="w-10 h-10 rounded-xl
+                                bg-indigo-600
+                                flex items-center justify-center">
+
+                        <i data-lucide="check-square"
+                           class="w-5 h-5">
+                        </i>
+
+                    </div>
+
+                    <div>
+
+                        <h1 class="font-bold text-lg">
+                            Todo
+                        </h1>
+
+                        <p class="text-xs text-slate-500">
+                            Task Manager
+                        </p>
+
+                    </div>
+
+                </a>
+
+
+                <!-- Dashboard -->
+
+                <a href="{% url 'todo_dashboard' %}"
+                   class="flex items-center gap-2
+                          text-sm text-slate-400
+                          hover:text-white
+                          transition">
+
+                    <i data-lucide="arrow-left"
+                       class="w-4 h-4">
+                    </i>
+
+                    Dashboard
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="max-w-2xl mx-auto px-6 py-12">
+
+
+        <!-- ================= HEADER ================= -->
+
+        <div class="mb-8">
+
+            <div class="flex items-center gap-4">
+
+                <div class="w-12 h-12 rounded-xl
+                            bg-indigo-500/10
+                            border border-indigo-500/20
+                            flex items-center justify-center">
+
+                    {% if form.instance.pk %}
+
+                        <i data-lucide="pencil"
+                           class="w-6 h-6 text-indigo-400">
+                        </i>
+
+                    {% else %}
+
+                        <i data-lucide="plus"
+                           class="w-6 h-6 text-indigo-400">
+                        </i>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div>
+
+                    <h1 class="text-3xl font-bold">
+
+                        {% if form.instance.pk %}
+                            Edit Todo
+                        {% else %}
+                            Create Todo
+                        {% endif %}
+
+                    </h1>
+
+
+                    <p class="text-slate-400 mt-1">
+
+                        {% if form.instance.pk %}
+                            Update your task details.
+                        {% else %}
+                            Add a new task to your list.
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================= FORM CARD ================= -->
+
+        <div class="bg-slate-900/70
+                    border border-slate-800
+                    rounded-2xl
+                    p-6 md:p-8
+                    shadow-xl">
+
+
+            <form method="POST"
+                  class="space-y-6">
+
+                {% csrf_token %}
+
+
+                <!-- ================= NON FIELD ERRORS ================= -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="p-4
+                                rounded-xl
+                                bg-red-500/10
+                                border border-red-500/20
+                                text-red-400
+                                text-sm">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+
+                <!-- ================= TITLE ================= -->
+
+                <div>
+
+                    <label for="{{ form.title.id_for_label }}"
+                           class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-300
+                                  mb-2">
+
+                        Title
+
+                    </label>
+
+
+                    <input
+                        type="text"
+                        name="{{ form.title.name }}"
+                        id="{{ form.title.id_for_label }}"
+                        value="{{ form.title.value|default:'' }}"
+                        placeholder="What do you need to do?"
+                        maxlength="200"
+                        required
+                        class="w-full
+                               bg-slate-950/60
+                               border border-slate-700
+                               rounded-xl
+                               py-3 px-4
+                               text-white
+                               placeholder-slate-500
+                               outline-none
+                               transition
+                               focus:border-indigo-500
+                               focus:ring-2
+                               focus:ring-indigo-500/20"
+                    >
+
+
+                    {% if form.title.errors %}
+
+                        <div class="mt-2
+                                    text-sm
+                                    text-red-400">
+
+                            {{ form.title.errors }}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- ================= DESCRIPTION ================= -->
+
+                <div>
+
+                    <label for="{{ form.description.id_for_label }}"
+                           class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-300
+                                  mb-2">
+
+                        Description
+
+                        <span class="text-slate-600 font-normal">
+                            (Optional)
+                        </span>
+
+                    </label>
+
+
+                    <textarea
+                        name="{{ form.description.name }}"
+                        id="{{ form.description.id_for_label }}"
+                        rows="5"
+                        placeholder="Add more details about this task..."
+                        class="w-full
+                               bg-slate-950/60
+                               border border-slate-700
+                               rounded-xl
+                               py-3 px-4
+                               text-white
+                               placeholder-slate-500
+                               outline-none
+                               resize-none
+                               transition
+                               focus:border-indigo-500
+                               focus:ring-2
+                               focus:ring-indigo-500/20"
+                    >{{ form.description.value|default:'' }}</textarea>
+
+
+                    {% if form.description.errors %}
+
+                        <div class="mt-2
+                                    text-sm
+                                    text-red-400">
+
+                            {{ form.description.errors }}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- ================= PRIORITY ================= -->
+
+                <div>
+
+                    <label for="{{ form.priority.id_for_label }}"
+                           class="block
+                                  text-sm
+                                  font-medium
+                                  text-slate-300
+                                  mb-2">
+
+                        Priority
+
+                    </label>
+
+
+                    <select
+                        name="{{ form.priority.name }}"
+                        id="{{ form.priority.id_for_label }}"
+                        class="w-full
+                               bg-slate-950/60
+                               border border-slate-700
+                               rounded-xl
+                               py-3 px-4
+                               text-white
+                               outline-none
+                               transition
+                               focus:border-indigo-500
+                               focus:ring-2
+                               focus:ring-indigo-500/20"
+                    >
+
+                        {% for value, label in form.priority.field.choices %}
+
+                            <option
+                                value="{{ value }}"
+                                {% if form.priority.value == value %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ label }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    {% if form.priority.errors %}
+
+                        <div class="mt-2
+                                    text-sm
+                                    text-red-400">
+
+                            {{ form.priority.errors }}
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                <!-- ================= BUTTONS ================= -->
+
+                <div class="flex flex-col sm:flex-row
+                            gap-3
+                            pt-3">
+
+
+                    <!-- Submit -->
+
+                    <button
+                        type="submit"
+                        class="flex-1
+                               flex
+                               items-center
+                               justify-center
+                               gap-2
+                               bg-indigo-600
+                               hover:bg-indigo-500
+                               text-white
+                               font-medium
+                               py-3
+                               px-5
+                               rounded-xl
+                               shadow-lg
+                               shadow-indigo-600/20
+                               transition"
+                    >
+
+                        {% if form.instance.pk %}
+
+                            <i data-lucide="save"
+                               class="w-5 h-5">
+                            </i>
+
+                            Update Todo
+
+                        {% else %}
+
+                            <i data-lucide="plus"
+                               class="w-5 h-5">
+                            </i>
+
+                            Create Todo
+
+                        {% endif %}
+
+                    </button>
+
+
+
+                    <!-- Cancel -->
+
+                    <a href="{% url 'todo_dashboard' %}"
+                       class="flex-1
+                              flex
+                              items-center
+                              justify-center
+                              gap-2
+                              border border-slate-700
+                              text-slate-300
+                              hover:bg-slate-800
+                              hover:text-white
+                              py-3
+                              px-5
+                              rounded-xl
+                              transition">
+
+                        <i data-lucide="x"
+                           class="w-5 h-5">
+                        </i>
+
+                        Cancel
+
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="border-t border-slate-800">
+
+        <div class="max-w-4xl mx-auto px-6 py-6
+                    text-center
+                    text-sm
+                    text-slate-600">
+
+            Todo Manager • Stay productive.
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- Lucide -->
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+
+</html>
