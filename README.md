@@ -39,7 +39,7 @@ http://51.21.194.230:8000/
 
 ## 📁 Project Structure
 
-
+```text
 django-todo-app/
 │
 ├── manage.py
@@ -54,7 +54,10 @@ django-todo-app/
 │
 ├── todos/
 │   ├── migrations/
+│   │   └── ...
 │   ├── templates/
+│   │   └── ...
+│   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── forms.py
@@ -64,6 +67,7 @@ django-todo-app/
 │
 ├── templates/
 │   ├── registration/
+│   │   └── ...
 │   └── ...
 │
 ├── .gitignore
